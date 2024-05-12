@@ -1,0 +1,79 @@
+<div
+  class="modal fade"
+  id="createTodoDialog"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialogTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dialogTitle">Create Todo</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form
+          #createTodoForm="ngForm"
+          (ngSubmit)="onSubmit(createTodoForm, title)"
+          class="overflow-auto mh-100"
+        >
+          <!-- title -->
+          <div class="form-group">
+            <label for="title" class="form-label">Title</label>
+            <input
+              class="form-control"
+              type="text"
+              [ngClass]="{
+                'is-invalid':
+                  titleRef.invalid && (titleRef.dirty || titleRef.touched)
+              }"
+              id="title"
+              [(ngModel)]="title"
+              name="title"
+              #titleRef="ngModel"
+              required
+              minlength="3"
+              aria-describedby="title"
+              placeholder="Enter todo's title"
+            />
+            <div
+              *ngIf="titleRef.invalid && (titleRef.dirty || titleRef.touched)"
+              class="invalid-feedback d-flex flex-column"
+            >
+              <span *ngIf="titleRef.errors?.['required']"
+                >title is required</span
+              >
+              <span *ngIf="titleRef.errors?.['minlength']"
+                >must be atleast 3 charcters</span
+              >
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              class="btn btn-primary"
+              type="submit"
+              [disabled]="!createTodoForm.valid"
+              data-bs-dismiss="modal"
+            >
+              Save changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

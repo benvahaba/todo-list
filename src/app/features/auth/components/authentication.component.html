@@ -1,0 +1,224 @@
+<div class="bg-image img-fluid background">
+  <form
+    #signupForm="ngForm"
+    (ngSubmit)="onSubmit(signupForm, userName, email, name, address)"
+    class="overflow-auto mh-100"
+  >
+    <div class="d-grid gap-3 container pt-3 bg-white bg-opacity-75">
+      <h1 class="text-center">{{ isSignIn ? "Login" : "Sign Up" }}</h1>
+
+      <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+        {{ errorMessage }}
+      </div>
+
+      <!-- user name -->
+      <div class="form-group">
+        <label for="userName" class="form-label">User name</label>
+        <input
+          class="form-control"
+          type="text"
+          [ngClass]="{
+            'is-invalid':
+              userNameRef.invalid && (userNameRef.dirty || userNameRef.touched)
+          }"
+          id="userName"
+          [(ngModel)]="userName"
+          name="userName"
+          #userNameRef="ngModel"
+          pattern="^[a-zA-Z ]*$"
+          required
+          minlength="3"
+          maxlength="10"
+          aria-describedby="userName"
+          placeholder="Enter user name"
+        />
+        <div
+          *ngIf="
+            userNameRef.invalid && (userNameRef.dirty || userNameRef.touched)
+          "
+          class="invalid-feedback d-flex flex-column"
+        >
+          <span *ngIf="userNameRef.errors?.['required']"
+            >user name is required</span
+          >
+          <span *ngIf="userNameRef.errors?.['minlength']"
+            >must be atleast 3 charcters</span
+          >
+          <span *ngIf="userNameRef.errors?.['pattern']"
+            >must contain latters only</span
+          >
+        </div>
+      </div>
+      <!-- email -->
+      <div class="form-group">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              emailRef.invalid && (emailRef.dirty || emailRef.touched)
+          }"
+          id="email"
+          name="email"
+          [(ngModel)]="email"
+          #emailRef="ngModel"
+          required
+          email
+          aria-describedby="email"
+          placeholder="Enter email"
+        />
+        <div
+          *ngIf="emailRef.invalid && (emailRef.dirty || emailRef.touched)"
+          class="invalid-feedback d-flex flex-column"
+        >
+          <span *ngIf="emailRef.errors?.['required']">Email is required</span>
+          <span *ngIf="emailRef.errors?.['email']">must be a valid email</span>
+        </div>
+      </div>
+
+      <div *ngIf="!isSignIn" class="d-grid gap-3 container pt-3">
+        <!-- name -->
+        <div class="form-group">
+          <label for="userName" class="form-label">Name</label>
+          <input
+            class="form-control"
+            type="text"
+            [ngClass]="{
+              'is-invalid':
+                nameRef.invalid && (nameRef.dirty || nameRef.touched)
+            }"
+            id="name"
+            [(ngModel)]="name"
+            name="name"
+            #nameRef="ngModel"
+            required
+            minlength="3"
+            maxlength="10"
+            pattern="^[a-zA-Z ]*$"
+            aria-describedby="Name"
+            placeholder="Enter name"
+          />
+          <div
+            *ngIf="nameRef.invalid && (nameRef.dirty || nameRef.touched)"
+            class="invalid-feedback d-flex flex-column"
+          >
+            <span *ngIf="nameRef.errors?.['required']"
+              >user name is required</span
+            >
+            <span *ngIf="nameRef.errors?.['minlength']"
+              >must be atleast 3 charcters</span
+            >
+            <span *ngIf="userNameRef.errors?.['pattern']"
+              >must contain latters only</span
+            >
+          </div>
+        </div>
+
+        <div>
+          <span class="fw-bold">Address</span>
+          <hr class="mb-0" />
+        </div>
+
+        <!-- street -->
+        <div>
+          <label for="street" class="form-label">street</label>
+          <input
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                streetRef.invalid && (streetRef.dirty || streetRef.touched)
+            }"
+            id="street"
+            [(ngModel)]="address.street"
+            name="street"
+            #streetRef="ngModel"
+            required
+            aria-describedby="street"
+            placeholder="Enter street"
+          />
+          <div
+            *ngIf="streetRef.invalid && (streetRef.dirty || streetRef.touched)"
+            class="invalid-feedback d-flex flex-column"
+          >
+            <span *ngIf="streetRef.errors?.['required']">required</span>
+          </div>
+        </div>
+
+        <div>
+          <label for="suite" class="form-label">suite</label>
+          <input
+            class="form-control"
+            id="suite"
+            [(ngModel)]="address.suite"
+            name="suite"
+            aria-describedby="suite"
+            placeholder="Enter suite"
+          />
+        </div>
+
+        <!-- city -->
+        <div>
+          <label for="city" class="form-label">city</label>
+          <input
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                cityRef.invalid && (cityRef.dirty || cityRef.touched)
+            }"
+            id="city"
+            (ngModel)="(address.city)"
+            name="city"
+            #cityRef="ngModel"
+            required
+            aria-describedby="city"
+            placeholder="Enter city"
+          />
+          <div
+            *ngIf="cityRef.invalid && (cityRef.dirty || cityRef.touched)"
+            class="invalid-feedback d-flex flex-column"
+          >
+            <span *ngIf="cityRef.errors?.['required']">required</span>
+          </div>
+        </div>
+
+        <!-- zipcode -->
+        <div>
+          <label for="zipcode" class="form-label">zipcode</label>
+          <input
+            class="form-control"
+            id="zipcode"
+            [(ngModel)]="address.zipcode"
+            name="zipcode"
+            #zipcodeRef="ngModel"
+            aria-describedby="zipcode"
+            placeholder="Enter zipcode"
+          />
+        </div>
+      </div>
+
+      <button
+        *ngIf="!isLoading"
+        [disabled]="!signupForm.valid"
+        type="submit"
+        class="btn btn-primary"
+      >
+        Sign up
+      </button>
+
+      <div class="d-flex justify-content-center">
+        <div
+          *ngIf="isLoading"
+          class="spinner-border text-primary all"
+          role="status"
+        ></div>
+      </div>
+      <span class="text-center mb-3">
+        {{ isSignIn ? "Don't have an account?" : "Have an account?" }}
+        <a (click)="onChangeAuthMethod()" class="text-decoration-none">{{
+          isSignIn ? "Sign up here" : "Log in here"
+        }}</a>
+      </span>
+    </div>
+  </form>
+</div>

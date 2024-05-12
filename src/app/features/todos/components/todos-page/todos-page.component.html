@@ -1,0 +1,139 @@
+<div
+  class="container-fluid vh-100 p-3 align-items-center justify-content-center bg-image img-fluid background"
+>
+  <div class="p-3 container d-flex flex-column mh-100 bg-white">
+    <header class="d-flex justify-content-between">
+      <div class="dropdown">
+        <button
+          class="btn btn-light dropdown-toggle"
+          type="button"
+          id="dropdownSettingsButton"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i class="bi bi-gear-wide-connected"></i>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownSettingsButton">
+          <div class="d-flex flex-column gap-2 config-container">
+            <div class="text-nowrap">
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="showCompletedCheckbox"
+                  [(ngModel)]="todosConfig.showAllTodos"
+                  (change)="onTodosConfigChange(todosConfig)"
+                />
+                <label class="form-check-label" for="showCompletedCheckbox"
+                  >Show completed todo's</label
+                >
+              </div>
+            </div>
+
+            <div class="text-nowrap container">
+              <span class="col">Number of todos per page</span>
+
+              <div class="row">
+                <div class="form-check col">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="numOfTodosPerPage"
+                    id="numOfTodosPerPage5"
+                    [value]="5"
+                    [(ngModel)]="todosConfig.numOfTodosPerPage"
+                    [checked]="todosConfig.numOfTodosPerPage === 5"
+                    (change)="onTodosConfigChange(todosConfig)"
+                  />
+                  <label class="form-check-label" for="numOfTodosPerPage5">
+                    5
+                  </label>
+                </div>
+                <div class="form-check col">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="numOfTodosPerPage"
+                    id="numOfTodosPerPage10"
+                    [value]="10"
+                    [(ngModel)]="todosConfig.numOfTodosPerPage"
+                    [checked]="todosConfig.numOfTodosPerPage === 10"
+                    (change)="onTodosConfigChange(todosConfig)"
+                  />
+                  <label class="form-check-label" for="numOfTodosPerPage10">
+                    10
+                  </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-check col">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="numOfTodosPerPage"
+                    id="numOfTodosPerPage15"
+                    [value]="15"
+                    [(ngModel)]="todosConfig.numOfTodosPerPage"
+                    [checked]="todosConfig.numOfTodosPerPage === 15"
+                    (change)="onTodosConfigChange(todosConfig)"
+                  />
+                  <label class="form-check-label" for="numOfTodosPerPage15">
+                    15
+                  </label>
+                </div>
+                <div class="form-check col">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="numOfTodosPerPage"
+                    id="numOfTodosPerPage20"
+                    [value]="20"
+                    [(ngModel)]="todosConfig.numOfTodosPerPage"
+                    [checked]="todosConfig.numOfTodosPerPage === 20"
+                    (change)="onTodosConfigChange(todosConfig)"
+                  />
+                  <label class="form-check-label" for="numOfTodosPerPage20">
+                    20
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dropdown-divider"></div>
+          <li (click)="onLogOutClicked()">
+            <div class="dropdown-item danger">
+              <i class="bi bi-door-open me-2"></i> <span>Log out</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <h1 class="">Todo's</h1>
+      <button
+        class="btn btn-primary height-fit-content"
+        type="button"
+        data-bs-toggle="modal"
+        data-bs-target="#createTodoDialog"
+      >
+        <i class="bi bi-plus-lg text-light"></i>
+      </button>
+    </header>
+    <app-todos-table
+      class="table-responsive"
+      [todosList]="filteredTodoPerPageList"
+      (todoChanged)="onTodoChanged($event)"
+    ></app-todos-table>
+    <app-pagination
+      class="align-self-center"
+      [totalNumOfItems]="filteredTodoList.length"
+      [itemsPerPage]="todosConfig.numOfTodosPerPage"
+      [currentPage]="currentPage"
+      (onPageChanged)="onPageChanged($event)"
+    ></app-pagination>
+  </div>
+</div>
+
+<app-todo-create-dialog
+  [userId]="user.id"
+  (onCreateTodo)="onCreateTodo($event)"
+></app-todo-create-dialog>

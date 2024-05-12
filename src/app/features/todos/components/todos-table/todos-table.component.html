@@ -1,0 +1,35 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Title</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody class="overflow-auto">
+    <tr *ngFor="let todo of todosList; trackBy: trackById">
+      <td
+        [ngClass]="{
+          'todo-done': todo.completed,
+          'text-danger': !todo.completed && todo.wasCompleted
+        }"
+      >
+        {{ todo.title }}
+      </td>
+
+      <td>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [checked]="todo.completed"
+            (change)="onTodoCheckedChange($event, todo)"
+          />
+
+          <label *ngIf="todo.completed" class="form-check-label">
+            {{ todo.completionTime | date : "short" }}
+          </label>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
